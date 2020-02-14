@@ -8,7 +8,6 @@ function validateUserId(req, res, next){
             res.status(400).json({message: "invalid user id"});
         }else{
             req.user = user;
-            res.status(200).json(user);
             next();
         }   
     })

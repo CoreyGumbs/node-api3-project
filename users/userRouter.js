@@ -1,7 +1,9 @@
 const express = require('express');
 const user_db = require('./userDb.js');
+const post_db = require('../posts/postDb');
 const validateUser = require('../middleware/validateUser.js');
 const validateUserId = require('../middleware/validateUserId');
+const validatePost = require('../middleware/validatePost');
 
 const router = express.Router();
 
@@ -16,8 +18,22 @@ router.post('/', validateUser, (req, res) => {
    })
 });
 
-router.post('/:id/posts', (req, res) => {
-  // do your magic!
+router.post('/:id/posts', validatePost, validateUserId, (req, res) => {
+   const body = {
+     "text": req.body.text,
+     "user_id": req.user.id
+   }
+
+   post_db.insert(body)
+   .then(post => {
+     res.status(200).json(post);
+   })
+   .catch(error => {
+     res.status(500).json({error: "There was a problem. Post not added."})
+   })
+
+
+
 });
 
 //gets all users
