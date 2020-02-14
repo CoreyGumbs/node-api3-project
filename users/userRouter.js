@@ -1,11 +1,18 @@
 const express = require('express');
 const user_db = require('./userDb.js');
 const validateUser = require('../middleware/validateUser.js');
+const validateUserId = require('../middleware/validateUserId');
 
 const router = express.Router();
 
 router.post('/', validateUser, (req, res) => {
-    console.log(req.body);
+   user_db.insert(req.body)
+   .then(user => {
+     res.status(200).json(user);
+   })
+   .catch(error => {
+     res.status(500).json({error: "User not created."});
+   })
 });
 
 router.post('/:id/posts', (req, res) => {
@@ -22,7 +29,7 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res) => {
   const {id} = req.params;
 
   user_db.getById(id)
@@ -65,9 +72,6 @@ router.put('/:id', (req, res) => {
 //   // do your magic!
 // }
 
-// function validateUser(req, res, next) {
-//   // do your magic!
-// }
 
 // function validatePost(req, res, next) {
 //   // do your magic!
