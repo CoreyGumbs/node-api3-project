@@ -1,6 +1,6 @@
 // code away!
 const express = require('express');
-const { logger }= require('./middleware/logger.js');
+const logger = require('./middleware/logger.js');
 const userRouter = require('./users/userRouter.js');
 
 //Server
@@ -20,7 +20,6 @@ server.get('/', (req, res) => {
     res.send(`<h2>Let's write some middleware!</h2>`);
   });
 
-
-
-
 server.listen(port, () => console.log(`Server Running On Port: ${port}`));
+
+module.exports = server;
