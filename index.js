@@ -5,7 +5,7 @@ const userRouter = require('./users/userRouter.js');
 
 //Server
 const server = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
  //custom middleware
 server.use(express.json());
