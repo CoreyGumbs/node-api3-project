@@ -1,8 +1,13 @@
-const user_db = require('./userDb.js');
+function validateUser(req, res, next){
+    const {body} = req;
 
-function validateUser(id, req, res, next){
+    if(Object.entries(body).length === 0){
+        res.status(400).json({message: "missing user data"})
+    }else if(body.name === '' || body.name === null){
+        res.status(400).json({message: "missing required name field"});
+    }
 
-    console.log('user')
+    next();
 }
 
 module.exports = validateUser;
