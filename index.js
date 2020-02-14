@@ -1,5 +1,6 @@
 // code away!
 const express = require('express');
+const { logger }= require('./middleware/logger.js');
 const userRouter = require('./users/userRouter.js');
 
 //Server
@@ -7,10 +8,12 @@ const server = express();
 const port = 5000;
 
  //custom middleware
- server.use(express.json());
+server.use(express.json());
+server.use(logger);
 
- //routers
- server.use('/api/users/', userRouter);
+
+//routers
+server.use('/api/users/', userRouter);
 
 
 server.get('/', (req, res) => {
