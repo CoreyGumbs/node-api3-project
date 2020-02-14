@@ -22,11 +22,32 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  // do your magic!
+  const {id} = req.params;
+
+  user_db.getById(id)
+  .then(user => {
+
+    res.status(200).json(user);
+
+  })
+  .catch(error => {
+
+    res.status(500).json({error: 'User ID does not exist'});
+
+  });
 });
 
 router.get('/:id/posts', (req, res) => {
-  // do your magic!
+  const {id} = req.params;
+
+  user_db.getUserPosts(id)
+  .then(posts => {
+    res.status(200).json(posts);
+  })
+  .catch(error => {
+    res.status(500).json({error: 'There was an issue retrieveing user posts'});
+  })
+
 });
 
 router.delete('/:id', (req, res) => {
